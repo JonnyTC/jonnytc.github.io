@@ -209,4 +209,19 @@ $.ajax({
         new api(data);
     }
 });
+ var request_url = 'jonnytc.github.io' + 'api.html?';
+request_url += 'page=1';    //普通模式
+request_url += 'label=RM&page=1';   //标签模式
+request_url += 'q=姿态解析&page=1'; //搜索模式
+$.ajax({
+    type: 'get',
+    headers: {
+        Accept: 'application/json',
+    },
+    url: request_url,
+    success: function(data) {
+        //your code here
+    }
+});
 </script>
+
