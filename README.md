@@ -1,399 +1,372 @@
-# gitblog
-这是一个极轻量级的，基于git issue的个人博客模板，非常适合于想在GitHub pages上搭建个人博客的人。
+## 기존 기능
+-[x] 기사 게시
+-[x] 기사 댓글
+-[x] 기사 및 댓글 페이지 매김
+-[x] 포스트 설정 태그
+-[x] 기사 검색 기능
+-[x] 게시물 및 댓글 좋아요 기능(좋아요 취소 불가:stick_out_tongue_winking_eye:
+-[x] 사용자가 클라이언트 및 기타 작업을 개발하는 데 편리한 `json` 형식으로 정보를 출력할 수 있는 블로그 API 인터페이스. 특정 인터페이스 사용법은 설명 하단을 참조하십시오.
+-[x] 기사 작성자 및 기사 상태(닫기 또는 열기)에 따라 기사를 필터링할 수 있습니다.다인 심사는 현재 지원하지 않습니다
 
-[示例页面](https://imuncle.github.io/gitblog)
+블로그 자체에는 기사 게시를 위한 인터페이스가 없지만 GitHub의 문제 페이지에서 직접 새로운 문제입니다.
 
-[English](README_en.md)
+주석 기능은 [Gitment](https://github.com/imsun/gitment)를 참조하여 Gitment의 CSS 스타일을 차용하여 JavaScript 로직을 다시 작성합니다. 주석 기능은 GitHub 문제를 기반으로 Markdown 구문을 지원하고 @ 기능을 지원하며 like 기능을 지원합니다.
 
-## 现有功能
-- [x] 发表文章
-- [x] 文章评论
-- [x] 文章、评论分页
-- [x] 文章设置标签
-- [x] 文章搜索功能
-- [x] 文章、评论点赞功能（不能取消点赞 :stuck_out_tongue_winking_eye:
-- [x] 博客API接口，可输出`json`格式信息，方便用户进行开发客户端等操作。具体接口使用见说明底部。
-- [x] 可根据文章作者和文章状态(close或open)筛选文章，暂不支持多人筛选
+GitHub의 각 기사에 대한 레이블을 지정할 수 있습니다.
 
-博客本身没有发表文章的接口，而是在GitHub的issue页面直接new issue。
+404 페이지는 GitHub의 자체 404 페이지를 모방합니다.
 
-评论功能参考了[Gitment](https://github.com/imsun/gitment)，借用了Gitment的css样式，重写了JavaScript逻辑。评论功能基于GitHub的issue，支持Markdown语法，支持@功能，支持点赞功能。
+### GitHub OAuth 앱 신청
+[여기](https://github.com/settings/applications/new)를 클릭하여 신청하세요.
+응용 프로그램이 완료되면 해당하는 고유한 **client_id** 및 **client_secret**을 얻게 되며 이 두 문자열은 후속 구성에서 사용됩니다.
 
-可以在GitHub上为每个文章指定标签label。
-
-404页面模仿了GitHub自己的404页面，可点击[这里](https://imuncle.github.io/anything)查看404页面示例。
-
-## 如何开始
-
-### 复制该仓库
-最快捷的方法就是直接**Fork**这个repo，修改仓库名为`username.github.io`格式，然后稍微配置一下就能直接使用了。
-
-第二种办法就是clone仓库
-
-```git
-git clone "https:/github.com/imuncle/gitblog"
-```
-
-### 申请GitHub OAuth APP
-点击[这里](https://github.com/settings/applications/new)申请。
-
-注意申请时的**callback URL**一定要填写正确。一般就写自己网站的首页就行，比如https://imuncle.github.io 。
-
-申请完毕后会拿到对应的唯一的**client_id**和**client_secret**，这两个字符串在后面的配置中会使用到。
-
-## 个性化定制
-### 基本配置
-修改**config.json**：
+## 맞춤형 커스터마이징
+### 기본 구성
+**config.json** 수정:
 ```js
 {
-    "name": "your github username",
-    "repo": "your github reponame",
-    "client_id": "your client_id here",
-    "client_secret": "your client_secret here",
-    "title": "add your title",
-    "instruction": "add your instruction",
-    "server_link": "http://119.23.8.25/gh-oauth-server.php",
-    "filter": {
-        "creator": "all",	//@param: "all" or a username(eg. "imuncle")
-        "state": "open"		//@param: "open", "close", "all"
+    "이름": "github 사용자 이름",
+    "repo": "github reponame",
+    "client_id": "여기에 client_id가 있습니다",
+    "client_secret": "여기에 client_secret",
+    "제목": "제목 추가",
+    "지시": "지시 사항 추가",
+    "서버 링크": "http://119.23.8.25/gh-oauth-server.php",
+    "필터": {
+        "creator": "all", //@param: "all" 또는 사용자 이름(예: "imuncle")
+        "state": "open" //@param: "open", "close", "all"
     },
-    "menu": {
-        //add your menu items and URL here
-        //example:
-        //"Home" : "./",
-        //"RSS" : "https://rsshub.app/github/issue/imuncle/imuncle.github.io",
-        //"About me" : "content.html?id=41"
+    "메뉴": {
+        //여기에 메뉴 항목과 URL을 추가합니다.
+        //예시:
+        //"집": "./",
+        //"RSS": "https://rsshub.app/github/issue/imuncle/imuncle.github.io",
+        //"내 소개": "content.html?id=41"
     },
-    "friends": {
-        //add your friends link here
-        //example:
-        //imuncle : "https://imuncle.github.io"
+    "친구": {
+        // 여기에 친구 링크 추가
+        //예시:
+        //이문클: "https://imuncle.github.io"
     },
-    "icons": {
-        //add your footer icons here
-        //you can set a jump link or display an image
-        //template :
-        //"the title of the icon" : {
-        //  "icon_src" : "the image of the icon",
-        //  "href" : "the link you want to jump",
-        //  "hidden_img" : "the image you want to show",
-        //  "width" : the width of the hidden_img, this should be a number.(unit : px)
+    "아이콘": {
+        //여기에 바닥글 아이콘을 추가합니다.
+        // 점프 링크를 설정하거나 이미지를 표시할 수 있습니다.
+        //주형:
+        //"아이콘의 제목": {
+        // "icon_src": "아이콘 이미지",
+        // "href": "점프하려는 링크",
+        // "hidden_img": "보여주고 싶은 이미지",
+        // "width": hidden_img의 너비, 숫자여야 합니다.(단위: px)
         //}
-        //example :
-        //"Github" : {
-        //    "icon_src" : "images/github.svg",
-        //    "href" : "https://github.com/imuncle",
-        //    "hidden_img" : null,
-        //    'width" : 0
+        //예시:
+        //"깃허브": {
+        // "icon_src": "이미지/github.svg",
+        // "href": "https://github.com/imuncle",
+        // "hidden_img": null,
+        //'너비': 0
         //}
     }
 }
 ```
-将自己的个人信息填写进去。
+자신의 개인 정보를 입력합니다.
 
-选项|含义
+옵션|의미
 :--:|:--:
-name|填写你的GitHub用户名
-repo|填写你的pages对应的仓库，一般是：用户名.github.io
-client_id|填写你申请OAuth APP时拿到的client_id
-client_secret|填写你申请OAuth APP时拿到的client_secret
-title|填写你的个人网站的标题
-instruction|填写你的个人网站的简介
-server_link|填写你的服务端地址，若没有服务器可填写'http://119.23.8.25/gh-oauth-server.php'
-filter|填写issue筛选规则，可根据creator和issue state筛选
-menu|填写右侧菜单中的名称和链接
-friends|填写你的网站的友链，若没有则不填写
-icons|填写网站页脚的图标信息，若没有则不填写
+name|당신의 GitHub 사용자 이름을 입력하세요
+repo|페이지에 해당하는 창고를 채우십시오. 일반적으로: username.github.io
+client_id|OAuth APP을 신청할 때 받은 client_id를 입력하세요.
+client_secret|OAuth APP 신청 시 받은 client_secret을 입력하세요.
+title|개인 웹사이트의 제목을 입력하세요
+지침|개인 웹사이트의 소개를 작성하십시오
+server_link|서버 주소를 입력하세요. 서버가 없으면 'http://119.23.8.25/gh-oauth-server.php'를 입력하세요.
+필터|작성자 및 문제 상태에 따라 필터링할 수 있는 문제 필터링 규칙을 입력합니다.
+menu|이름을 입력하고 오른쪽 메뉴에서 링크
+친구|웹사이트의 친구 체인을 채우고, 그렇지 않은 경우 비워 두십시오.
+아이콘|웹사이트 바닥글에 있는 아이콘 정보를 채우십시오. 그렇지 않은 경우 비워 두십시오.
 
-上面的server_link是服务端的地址，，因为访问用户的access_token必须通过服务端访问，详情可见[这篇文章](https://imuncle.github.io/content.html?id=22)。这个服务端使用PHP编写，只负责请求用户的access_token，不会存储任何数据。详见[源代码](https://github.com/imuncle/gitblog/blob/master/server/gh-oauth-server.php)。
+위의 server_link는 서버의 주소로 사용자의 access_token은 반드시 서버를 통해 접근해야 하므로 자세한 내용은 [본 기사](https://imuncle.github.io/content.html?id=22)를 참고하세요. . 이 서버는 PHP로 작성되었으며 사용자의 access_token 요청만 담당하며 데이터를 저장하지 않습니다. 자세한 내용은 [소스 코드](https://github.com/imuncle/gitblog/blob/master/server/gh-oauth-server.php)를 참조하세요.
 
-如果你有服务器，那么你可以使用该PHP代码自己配置服务端，将**server_link**写为自己的服务端地址。
+서버가 있는 경우 PHP 코드를 사용하여 서버를 직접 구성하고 **server_link**를 서버 주소로 작성할 수 있습니다.
 
-### 动态打字配置
-网站首页有一个动态打字的效果，这里参考的是[type.js](https://github.com/mattboldt/typed.js)项目，配置地方在**index.html**中。
+### 동적 입력 구성
+웹사이트 홈페이지에 다이내믹 타이핑 효과가 있는데, 여기서 참고한 것은 [type.js](https://github.com/mattboldt/typed.js) 프로젝트이고, 설정 위치는 **index.js에 있습니다. HTML**.
 
-找到如下代码（在尾部）：
-```javascript
+다음 코드를 찾으십시오(끝에서).
+```자바스크립트
 $("#changerificwordspanid").typed({
-    strings: ["good", "happy", "healthy", "tall"],
-    typeSpeed: 100,
-    startDelay: 10,
-    showCursor: true,
-    shuffle: true,
-    loop:true
+    문자열: ["좋은", "행복한", "건강한", "키가 큰"],
+    유형속도: 100,
+    시작 지연: 10,
+    showCursor: 사실,
+    셔플: 사실,
+    루프:참
 });
 ```
-可以更改`strings`来更改单词。更多的配置选项请参考[原项目](https://github.com/mattboldt/typed.js)。
+'문자열'을 변경하여 단어를 변경할 수 있습니다. 더 많은 설정 옵션은 [Original Project](https://github.com/mattboldt/typed.js)를 참고하세요.
 
-### 图片更改
-图片全部都存储在**images**文件夹中。
+### 사진 변경
+사진은 모두 **images** 폴더에 저장됩니다.
 
-图片名称|含义
+사진 이름|의미
 :--:|:--:
-404.png|404页面
-avatar.jpg|网站图标
-fish.png|404页面
-github.svg|GitHub图标
-house1.png|404页面
-house2.png|404页面
-page_backfround.jpg|首页的背景图
-search.svg|右上角搜索图标
-totop.png|右下角“回到顶部”按钮图标
+404.png|404 페이지
+avatar.jpg|웹사이트 아이콘
+fish.png|404 페이지
+github.svg|GitHub 아이콘
+house1.png|404 페이지
+house2.png|404 페이지
+page_backfround.jpg|홈페이지의 배경
+search.svg|오른쪽 상단 모서리에 있는 검색 아이콘
+totop.png|오른쪽 하단 모서리에 있는 "맨 위로 돌아가기" 버튼 아이콘
 
-如果没有前端知识，建议更改图片时不要更改文件名。
+프론트엔드 지식이 없으시다면 사진 변경시 파일명 변경은 하지 않는 것을 권장합니다.
 
-## API接口
-API接口的实现见[api.html](https://github.com/imuncle/gitblog/blob/master/api.html)，通过访问该文件获取信息，使用url参数指定获取的信息内容。具体的用法如下。
+## API 인터페이스
+API 인터페이스 구현은 [api.html](https://github.com/imuncle/gitblog/blob/master/api.html)을 참조하고 파일에 액세스하여 정보를 얻고 url 매개변수를 사용하여 지정합니다. 얻은 정보의 내용. 구체적인 사용법은 다음과 같습니다.
 
-### 获取菜单信息
-```javascript
+### 메뉴 정보 가져오기
+```자바스크립트
 $.ajax({
-    type: 'get',
-    headers: {
-        Accept: 'application/json',
+    유형:'가져오기',
+    헤더: {
+        수락: '응용 프로그램/json',
     },
-    url: 'your domain name' + 'api.html?menu=menu',
-    success: function(data) {
-        //your code here
+    url:'귀하의 도메인 이름' +'api.html?menu=menu',
+    성공: 함수(데이터) {
+        //여기에 코드
     }
 });
 ```
 
-返回的数据格式如下：
+반환된 데이터의 형식은 다음과 같습니다.
 ```json
 [
-	{
-		"name": "首页",
-		"url": "./"
-	},
-	{
-		"name": "机器学习",
-		"url": "issue_per_label.html?label=AI"
-	},
-	{
-		"name": "小项目",
-		"url": "issue_per_label.html?label=Project"
-	},
-	{
-		"name": "RM比赛",
-		"url": "issue_per_label.html?label=RM"
-	},
-	{
-		"name": "ROS学习",
-		"url": "issue_per_label.html?label=ROS"
-	},
-	{
-		"name": "小工具",
-		"url": "issue_per_label.html?label=tools"
-	},
-	{
-		"name": "网页开发",
-		"url": "issue_per_label.html?label=web"
-	},
-	{
-		"name": "其他",
-		"url": "issue_per_label.html?label=other"
-	},
-	{
-		"name": "灵感想法",
-		"url": "https://imuncle.github.io/timeline"
-	},
-	{
-		"name": "关于我",
-		"url": "content.html?id=41"
-	}
+{
+"이름": "집",
+"URL": "./"
+},
+{
+"이름": "머신 러닝",
+"url": "issue_per_label.html?label=AI"
+},
+{
+"이름": "작은 프로젝트",
+"url": "issue_per_label.html?label=프로젝트"
+},
+{
+"이름": "RM 대회",
+"url": "issue_per_label.html?label=RM"
+},
+{
+"이름": "ROS 학습",
+"url": "issue_per_label.html?label=ROS"
+},
+{
+"이름": "가젯",
+"url": "issue_per_label.html?label=tools"
+},
+{
+"이름": "웹 개발",
+"url": "issue_per_label.html?label=web"
+},
+{
+"이름": "기타",
+"url": "issue_per_label.html?label=other"
+},
+{
+"이름": "영감 아이디어",
+"url": "https://imuncle.github.io/timeline"
+},
+{
+"이름": "나에 대해",
+"url": "content.html?id=41"
+}
 ]
 ```
 
-### 获取文章列表
-获取文章列表分为三种模式：一种是无筛选的普通模式，一种是按标签（label）筛选的标签模式，一种是按搜索内容筛选的搜索模式。三种模式都支持分页模式。
-```javascript
-var request_url = 'your domain name' + 'api.html?';
-request_url += 'page=1';    //普通模式
-request_url += 'label=RM&page=1';   //标签模式
-request_url += 'q=姿态解析&page=1'; //搜索模式
+### 기사 목록 가져오기
+기사 목록을 얻는 모드는 세 가지가 있습니다. 하나는 필터링하지 않은 일반 모드, 다른 하나는 레이블로 필터링되는 레이블 모드, 다른 하나는 검색 내용으로 필터링되는 검색 모드입니다. 세 가지 모드 모두 페이징 모드를 지원합니다.
+```자바스크립트
+var request_url ='도메인 이름' +'api.html?';
+request_url +='page=1'; //일반 모드
+request_url +='label=RM&page=1'; //레이블 모드
+request_url +='q=자세분석&page=1'; //검색모드
 $.ajax({
-    type: 'get',
-    headers: {
-        Accept: 'application/json',
+    유형:'가져오기',
+    헤더: {
+        수락: '응용 프로그램/json',
     },
     url: request_url,
-    success: function(data) {
-        //your code here
+    성공: 함수(데이터) {
+        //여기에 코드
     }
 });
 ```
-> 注：以上代码中`page`参数均为可选。
-
-返回的数据格式如下：
+> 참고: 위 코드의 'page' 매개변수는 모두 선택 사항입니다.
+> 반환된 데이터의 형식은 다음과 같습니다.
 ```json
 {
-	"page": 4,
-	"page_num": 8,
-	"article": [
-		{
-			"id": 48,
-			"time": "2019/4/7 23:00:49",
-			"title": "STM32 flash读写",
-			"author": "imuncle",
-			"content": "文章内容太多了，此处省略...",
-			"labels": [
-				{
-					"name": "RM"
-				}
-			]
-		},
-		{
-			"id": 47,
-			"time": "2019/4/5 01:58:44",
-			"title": "WS2811驱动",
-			"author": "imuncle",
-			"content": "文章内容太多了，此处省略...",
-			"labels": [
-				{
-					"name": "RM"
-				}
-			]
-		},
-		{
-			"id": 46,
-			"time": "2019/4/1 18:57:58",
-			"title": "DS18B20温度传感器数据读取",
-			"author": "imuncle",
-			"content": "文章内容太多了，此处省略...",
-			"labels": [
-				{
-					"name": "other"
-				}
-			]
-		},
-		{
-			"id": 45,
-			"time": "2019/4/1 18:01:15",
-			"title": "HAL库实现us级延时",
-			"author": "imuncle",
-			"content": "文章内容太多了，此处省略...",
-			"labels": [
-				{
-					"name": "other"
-				}
-			]
-		},
-		{
-			"id": 44,
-			"time": "2019/4/1 10:00:40",
-			"title": "MPU9250六轴算法",
-			"author": "imuncle",
-			"content": "文章内容太多了，此处省略...",
-			"labels": [
-				{
-					"name": "RM"
-				}
-			]
-		},
-		{
-			"id": 43,
-			"time": "2019/3/30 09:19:57",
-			"title": "MATLAB串口通信GUI程序",
-			"author": "imuncle",
-			"content": "文章内容太多了，此处省略...",
-			"labels": [
-				{
-					"name": "other"
-				}
-			]
-		},
-		{
-			"id": 42,
-			"time": "2019/3/24 12:01:25",
-			"title": "网站搜索功能",
-			"author": "imuncle",
-			"content": "文章内容太多了，此处省略...",
-			"labels": [
-				{
-					"name": "web"
-				}
-			]
-		},
-		{
-			"id": 40,
-			"time": "2019/3/19 15:19:52",
-			"title": "RM2018的奋斗",
-			"author": "imuncle",
-			"content": "文章内容太多了，此处省略... ",
-			"labels": [
-				{
-					"name": "RM"
-				}
-			]
-		},
-		{
-			"id": 39,
-			"time": "2019/3/18 18:03:35",
-			"title": "MPU9250姿态解析",
-			"author": "imuncle",
-			"content": "文章内容太多了，此处省略...",
-			"labels": [
-				{
-					"name": "RM"
-				}
-			]
-		},
-		{
-			"id": 38,
-			"time": "2019/3/10 19:03:28",
-			"title": "生成漂亮的代码分享图",
-			"author": "imuncle",
-			"content": "文章内容太多了，此处省略...",
-			"labels": [
-				{
-					"name": "tools"
-				}
-			]
-		}
-	]
+"페이지": 4,
+"page_num": 8,
+"기사": [
+{
+"아이디": 48,
+"시간": "2019/4/7 23:00:49",
+"제목": "STM32 플래시 읽기 및 쓰기",
+"저자": "이문클",
+"content": "기사의 내용이 너무 많아 생략합니다...",
+"레이블": [
+{
+"이름": "RM"
+}
+]
+},
+{
+"아이디": 47,
+"시간": "2019/4/5 01:58:44",
+"제목": "WS2811 드라이버",
+"저자": "이문클",
+"content": "기사의 내용이 너무 많아 생략합니다...",
+"레이블": [
+{
+"이름": "RM"
+}
+]
+},
+{
+"아이디": 46,
+"시간": "2019/4/1 18:57:58",
+"title": "DS18B20 온도 센서 데이터 읽기",
+"저자": "이문클",
+"content": "기사의 내용이 너무 많아 생략합니다...",
+"레이블": [
+{
+"이름": "기타"
+}
+]
+},
+{
+"아이디": 45,
+"시간": "2019/4/1 18:01:15",
+"title": "HAL 라이브러리는 우리 수준의 지연을 실현합니다",
+"저자": "이문클",
+"content": "기사의 내용이 너무 많아 생략합니다...",
+"레이블": [
+{
+"이름": "기타"
+}
+]
+},
+{
+"아이디": 44,
+"시간": "2019/4/1 10:00:40",
+"제목": "MPU9250 6축 알고리즘",
+"저자": "이문클",
+"content": "기사의 내용이 너무 많아 생략합니다...",
+"레이블": [
+{
+"이름": "RM"
+}
+]
+},
+{
+"아이디": 43,
+"시간": "2019/3/30 09:19:57",
+"title": "MATLAB 직렬 통신 GUI 프로그램",
+"저자": "이문클",
+"content": "기사의 내용이 너무 많아 생략합니다...",
+"레이블": [
+{
+"이름": "기타"
+}
+]
+},
+{
+"아이디": 42,
+"시간": "2019/3/24 12:01:25",
+"제목": "웹사이트 검색 기능",
+"저자": "이문클",
+"content": "기사의 내용이 너무 많아 생략합니다...",
+"레이블": [
+{
+"이름": "웹"
+}
+]
+},
+{
+"아이디": 40,
+"시간": "2019/3/19 15:19:52",
+"title": "RM2018의 투쟁",
+"저자": "이문클",
+"content": "기사 내용이 너무 많아 생략합니다...",
+"레이블": [
+{
+"이름": "RM"
+}
+]
+},
+{
+"아이디": 39,
+"시간": "2019/3/18 18:03:35",
+"제목": "MPU9250 태도 분석",
+"저자": "이문클",
+"content": "기사의 내용이 너무 많아 생략합니다...",
+"레이블": [
+{
+"이름": "RM"
+}
+]
+},
+{
+"아이디": 38,
+"시간": "2019/3/10 19:03:28",
+"title": "아름다운 코드 공유 사진 생성",
+"저자": "이문클",
+"content": "기사의 내용이 너무 많아 생략합니다...",
+"레이블": [
+{
+"이름": "도구"
+}
+]
+}
+]
 }
 ```
-> 注：默认一页显示10篇文章
+> 참고: 기본적으로 한 페이지에 10개의 기사가 표시됩니다.
 
-### 获取文章内容
-这是获取文章的详细内容。**注意**，这里返回的是**HTML格式**的文章内容，而`获取文章列表`拿到的是**Markdown格式**的文章内容。使用方法如下：
-```javascript
+### 기사 콘텐츠 가져오기
+기사의 자세한 내용을 얻기 위함입니다. **참고**, **HTML 형식**의 기사 내용과 '기사 목록 가져오기'로 얻은 **마크다운 형식**의 기사 내용입니다. 사용 방법은 다음과 같습니다.
+```자바스크립트
 $.ajax({
-    type: 'get',
-    headers: {
-        Accept: 'application/json',
+    유형:'가져오기',
+    헤더: {
+        수락: '응용 프로그램/json',
     },
-    url: 'your domain name' + 'api.html?id=1',
-    success: function(data) {
-        //your code here
+    url:'귀하의 도메인 이름' +'api.html?id=1',
+    성공: 함수(데이터) {
+        //여기에 코드
     }
 });
 ```
 
-返回的数据格式如下：
+반환된 데이터의 형식은 다음과 같습니다.
 ```json
 {
-	"title": "博客搭建过程",
-	"time": "2019/2/5 16:33:06",
-	"content": "文章内容太多了，此处省略...",
-	"labels": [
-		{
-			"name": "web"
-		}
-	],
-	"like": 0
+"title": "블로그 구축 과정",
+"시간": "2019/2/5 16:33:06",
+"content": "기사의 내용이 너무 많아 생략합니다...",
+"레이블": [
+{
+"이름": "웹"
+}
+],
+"좋아요": 0
 }
 ```
 
-## 依赖
+## 의존성
 * [gitment](https://github.com/imsun/gitment)
 * [MathJax](https://www.mathjax.org/)
-* [jQuery](http://www.jquery.org/)
-* [Bootstrap](http://www.getbootstrap.com/)
+* [제이쿼리](http://www.jquery.org/)
+* [부트스트랩](http://www.getbootstrap.com/)
 * [type.js](https://github.com/mattboldt/typed.js)
-
-欢迎提issue，也欢迎PR~
-
-## 许可
-MIT LICENSE
